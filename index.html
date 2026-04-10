@@ -1,0 +1,475 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #1D9E75;
+    --accent-dim: #0F6E56;
+    --accent-bg: #E1F5EE;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', var(--font-sans), sans-serif;
+  }
+
+  .port {
+    font-family: var(--sans);
+    color: var(--color-text-primary);
+    padding: 0 0 3rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    padding: 2.5rem 0 1.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 0;
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--accent-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 15px; font-weight: 500;
+    color: var(--accent-dim); flex-shrink: 0;
+    border: 0.5px solid #9FE1CB;
+  }
+  .header-name { font-size: 26px; font-weight: 600; line-height: 1.2; }
+  .header-role {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--accent); margin-top: 4px; letter-spacing: 0.04em;
+  }
+  .header-loc {
+    font-size: 13px; color: var(--color-text-secondary); margin-top: 6px;
+  }
+  .header-links {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .hlink {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent-dim);
+    text-decoration: none;
+    border: 0.5px solid #9FE1CB;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--accent-bg);
+    cursor: pointer;
+  }
+  .summary-text {
+    font-size: 14px; line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--color-border-tertiary);
+  }
+
+  /* Nav */
+  .nav {
+    display: flex; gap: 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+  }
+  .nav-btn {
+    font-family: var(--mono); font-size: 12px;
+    padding: 12px 20px;
+    border: none; background: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -0.5px;
+    white-space: nowrap;
+    transition: color 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .nav-btn:hover { color: var(--color-text-primary); }
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Sections */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Experience */
+  .exp-item {
+    padding: 1.25rem 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .exp-title { font-size: 15px; font-weight: 500; }
+  .exp-company { color: var(--accent); font-size: 13px; margin-top: 2px; }
+  .exp-date {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--color-text-secondary); white-space: nowrap; padding-top: 2px;
+  }
+  .exp-bullets {
+    list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .exp-bullets li {
+    font-size: 13px; line-height: 1.6;
+    color: var(--color-text-secondary);
+    padding-left: 14px; position: relative;
+  }
+  .exp-bullets li::before {
+    content: '';
+    position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* Projects */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .proj-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.1rem 1.25rem;
+  }
+  .proj-tag {
+    font-family: var(--mono); font-size: 10px;
+    background: var(--accent-bg); color: var(--accent-dim);
+    padding: 2px 8px; border-radius: 4px;
+    display: inline-block; margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .proj-name { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .proj-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+
+  /* Skills */
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-group-title {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .skill-tag {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    color: var(--color-text-secondary);
+    padding: 4px 12px; border-radius: 4px;
+  }
+
+  /* Contact */
+  .contact-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-top: 0.5rem;
+  }
+  .contact-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+  }
+  .contact-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--color-text-secondary); margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+  .contact-val { font-size: 14px; font-weight: 500; color: var(--accent); }
+
+  /* Education */
+  .edu-item {
+    padding: 1.1rem 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-degree { font-size: 15px; font-weight: 500; }
+  .edu-school { font-size: 13px; color: var(--accent); margin-top: 3px; }
+  .edu-date { font-family: var(--mono); font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; }
+  .edu-note { font-size: 13px; color: var(--color-text-secondary); margin-top: 6px; line-height: 1.5; }
+
+  .section-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--color-text-secondary); letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+
+  .pub-box {
+    background: var(--accent-bg);
+    border: 0.5px solid #9FE1CB;
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .pub-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--accent-dim); letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+  .pub-title { font-size: 13px; font-weight: 500; line-height: 1.5; }
+  .pub-ref { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-top: 4px; }
+</style>
+
+<div class="port">
+  <div class="header">
+    <div class="header-top">
+      <div class="avatar">RR</div>
+      <div>
+        <div class="header-name">Rajashree Ramu</div>
+        <div class="header-role">// embedded systems · firmware · hardware</div>
+        <div class="header-loc">Stockton, California &nbsp;·&nbsp; 540-558-5770</div>
+        <div class="header-links">
+          <span class="hlink">LinkedIn</span>
+          <span class="hlink">GitHub</span>
+          <span class="hlink">Email</span>
+        </div>
+      </div>
+    </div>
+    <div class="summary-text">
+      Strong background in computer architecture, bare-metal firmware, and bottom-up driver implementation for new platforms. Hands-on experience debugging using JTAG, UART, and oscilloscope. Skilled in PCB design, board bring-up, and embedded system circuits with strong fundamentals of digital electronics.
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" onclick="show('experience', this)">Experience</button>
+    <button class="nav-btn" onclick="show('projects', this)">Projects</button>
+    <button class="nav-btn" onclick="show('skills', this)">Skills</button>
+    <button class="nav-btn" onclick="show('education', this)">Education</button>
+    <button class="nav-btn" onclick="show('contact', this)">Contact</button>
+  </nav>
+
+  <!-- Experience -->
+  <div id="experience" class="section active">
+    <div class="section-label">Work history</div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Electrical Engineer</div>
+          <div class="exp-company">West Coast Magnetics</div>
+        </div>
+        <div class="exp-date">June 2025 – Present</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>System-level hardware debugging, R&D prototyping, and PCB validation for custom electronic systems.</li>
+        <li>Designed high-speed PCBs and tested on VNAs and high-bandwidth oscilloscopes to measure signal integrity and debug EMI-related behavior.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Project Associate — Low-Level Driver Dev & Board Bring-Up</div>
+          <div class="exp-company">Indian Institute of Science</div>
+        </div>
+        <div class="exp-date">Aug 2021 – July 2023</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Led full-cycle board bring-up for a custom ATmega328P and ESP32-based platform, from schematic/PCB design to functional firmware stack.</li>
+        <li>Developed bottom-up peripheral drivers in C using memory-mapped registers — GPIO, timers, UART, interrupt configuration.</li>
+        <li>Engineered a custom USB programming bootloader using bit-banging and a virtual USB stack with reset interrupt vector table for boot-mode/application-mode switching.</li>
+        <li>Designed and implemented a sinusoidal PWM switching algorithm for high-power inverters with direct register manipulation of 16-bit timers, dead-time insertion, and thermal constraints.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Test Engineer</div>
+          <div class="exp-company">Tetcos LLP</div>
+        </div>
+        <div class="exp-date">Mar 2020 – Aug 2020</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Worked on 5G PHY layer protocol in NetSim 5G stack and developed test cases to validate the implementation.</li>
+        <li>Implemented route table generation for the AODV protocol and built a custom app for NetSim's VANET module.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Graduate Teaching Assistant</div>
+          <div class="exp-company">Virginia Tech</div>
+        </div>
+        <div class="exp-date">Spring 2024 – Spring 2025</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Supported coursework across three semesters in computer systems and engineering.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div id="projects" class="section">
+    <div class="section-label">Selected projects</div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-tag">RTOS</div>
+        <div class="proj-name">Real-Time Scheduler</div>
+        <div class="proj-desc">Implemented Rate Monotonic and Deadline Monotonic scheduling on FreeRTOS. Replaced priority inheritance with priority ceiling protocol to reduce worst-case blocking. Full state machine: READY, RUNNING, BLOCKED, IDLE.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Linux Kernel</div>
+        <div class="proj-name">CPU Profiling Tool</div>
+        <div class="proj-desc">Kernel module to track task scheduling and CPU time using kprobe, hash table, RB-tree, and procfs. Includes Page Table Walker and custom system call implementation.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Hardware Security</div>
+        <div class="proj-name">Voltage-Glitch Fault Injection</div>
+        <div class="proj-desc">Performed fault injection to induce instruction skipping and corruption, revealing hardware security flaws. Benchmarked effects on control structures and arithmetic operations.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Architecture</div>
+        <div class="proj-name">TLB Modelling (x86)</div>
+        <div class="proj-desc">Developed algorithms to model the Translation Lookaside Buffer for x86 processors as part of computer architecture coursework.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Bootloader</div>
+        <div class="proj-name">Custom USB Bootloader</div>
+        <div class="proj-desc">Bit-banging virtual USB stack with reset interrupt vector table enabling boot-mode and application-mode switching — eliminating need for external USB-to-serial converter.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Power Electronics</div>
+        <div class="proj-name">Sinusoidal PWM Inverter</div>
+        <div class="proj-desc">Bare-metal sinusoidal PWM algorithm for high-power inverters using direct 16-bit timer register manipulation with dead-time insertion and hardware-level thermal protection.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div id="skills" class="section">
+    <div class="section-label">Technical skills</div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Embedded Systems</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Embedded C/C++</span>
+        <span class="skill-tag">FreeRTOS</span>
+        <span class="skill-tag">Bare-metal</span>
+        <span class="skill-tag">DMA</span>
+        <span class="skill-tag">Interrupts</span>
+        <span class="skill-tag">Bootloaders</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Hardware Interfaces</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SPI</span>
+        <span class="skill-tag">I2C</span>
+        <span class="skill-tag">UART</span>
+        <span class="skill-tag">ADC</span>
+        <span class="skill-tag">PWM</span>
+        <span class="skill-tag">GPIO</span>
+        <span class="skill-tag">Motor Control</span>
+        <span class="skill-tag">JTAG</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Linux & OS</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Linux Kernel Programming</span>
+        <span class="skill-tag">Page Table Walker</span>
+        <span class="skill-tag">System Calls</span>
+        <span class="skill-tag">kprobe</span>
+        <span class="skill-tag">procfs</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Hardware & PCB</div>
+      <div class="skill-tags">
+        <span class="skill-tag">PCB Design</span>
+        <span class="skill-tag">Board Bring-Up</span>
+        <span class="skill-tag">Oscilloscope</span>
+        <span class="skill-tag">VNA</span>
+        <span class="skill-tag">Signal Integrity</span>
+        <span class="skill-tag">EMI Debug</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Tools & Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">CMake</span>
+        <span class="skill-tag">Eclipse</span>
+      </div>
+    </div>
+
+    <div class="pub-box">
+      <div class="pub-label">PUBLICATION</div>
+      <div class="pub-title">Systematic Use of Random Self-Reducibility against Physical Attacks</div>
+      <div class="pub-ref">arXiv:2405.05193 &nbsp;·&nbsp; 2024</div>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div id="education" class="section">
+    <div class="section-label">Academic background</div>
+
+    <div class="edu-item">
+      <div class="edu-degree">M.S. in Computer Engineering — Computer Systems</div>
+      <div class="edu-school">Virginia Tech</div>
+      <div class="edu-date">Aug 2023 – May 2025 &nbsp;·&nbsp; Blacksburg, Virginia</div>
+      <div class="edu-note">Graduate Teaching Assistant — Spring 2024, Fall 2024, Spring 2025</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-degree">B.E. in Electronics and Communication Engineering</div>
+      <div class="edu-school">BIET</div>
+      <div class="edu-date">Aug 2015 – July 2019 &nbsp;·&nbsp; Davangere, India</div>
+      <div class="edu-note">Coursework: OOP with C++, Control Systems, ARM Cortex & Embedded Systems, Signal Processing</div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div id="contact" class="section">
+    <div class="section-label">Get in touch</div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-label">location</div>
+        <div class="contact-val" style="color: var(--color-text-primary); font-size: 13px;">Stockton, California</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">phone</div>
+        <div class="contact-val" style="font-size: 13px;">540-558-5770</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">email</div>
+        <div class="contact-val" style="font-size: 13px;">via resume</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">linkedin</div>
+        <div class="contact-val" style="font-size: 13px;">view profile ↗</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">github</div>
+        <div class="contact-val" style="font-size: 13px;">view repos ↗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
