@@ -167,6 +167,9 @@
     object-fit:contain;
     filter:contrast(1.1);
     opacity:0.9;
+    .card-diagram--bootloader img{
+  object-position:left;
+  max-height:180px;
   }
 
   .project-index{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:16px}
@@ -330,9 +333,9 @@
       <div class="project-name">Custom USB Bootloader</div>
       <div class="project-org">IISc · ATmega328P</div>
       <p class="project-desc">Custom bootloader enabling MCU programming directly over USB — eliminating the USB-to-Serial converter entirely.</p>
-      <figure class="project-figure">
-  <img src="assets/Git-portfolio/generated-image.png" alt="Block diagram — Custom USB Bootloader">
-</figure>
+      <div class="card-diagram card-diagram--bootloader">
+  <img src="assets/Git-portfolio/generated-image.png" alt="Block diagram">
+</div>
       <ul class="project-bullets">
           
         <li>Bit-banging V-USB stack to handle USB protocol without dedicated hardware</li>
